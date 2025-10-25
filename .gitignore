@@ -1,0 +1,112 @@
+# .gitignore for Enhanced Gauge HTML Report
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+bin/
+build/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.html
+coverage.xml
+
+# Dependency directories
+vendor/
+node_modules/
+
+# Go workspace file
+go.work
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+*.zip
+*.tar.gz
+*.rpm
+*.deb
+
+# Reports directory (for testing)
+reports/
+test-reports/
+.gauge/
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS specific
+Thumbs.db
+desktop.ini
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# npm
+package-lock.json
+yarn.lock
+.npm
+.yarn
+
+# Build outputs
+web/dist/
+web/build/
+*.min.js
+*.min.css
+
+# Cache
+.cache/
+*.cache
+
+# Screenshots (generated during tests)
+screenshots/
+images/screenshots/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+
+# Python (if used for scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# Profiling
+*.prof
+*.pprof
+cpu.prof
+mem.prof
+
+# Test data
+test-data/
+testdata/output/

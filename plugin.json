@@ -1,0 +1,39 @@
+{
+  "id": "html-report",
+  "version": "5.0.0",
+  "name": "Enhanced HTML Report",
+  "description": "Advanced HTML report generation plugin for Gauge with enhanced analytics, modern UI, and extensive customization options",
+  "capabilities": [
+    "grpc_support"
+  ],
+  "install": {
+    "windows": [],
+    "linux": [],
+    "darwin": []
+  },
+  "command": {
+    "windows": ["bin/html-report.exe"],
+    "linux": ["bin/html-report"],
+    "darwin": ["bin/html-report"]
+  },
+  "gaugeVersionSupport": {
+    "minimum": "1.4.0",
+    "maximum": ""
+  },
+  "scope": [
+    "Execution"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/gauge-html-report-enhanced"
+  },
+  "keywords": [
+    "gauge-plugin",
+    "test-automation",
+    "html-report",
+    "analytics",
+    "dashboard"
+  ],
+  "author": "Gauge Enhanced Team",
+  "license": "Apache-2.0"
+}

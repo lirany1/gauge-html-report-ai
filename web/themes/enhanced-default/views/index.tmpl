@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{.ProjectName}} - Enhanced Gauge Report</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-light" data-theme="light">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__brand">
+                <img src="images/logo.svg" alt="Gauge" class="header__logo">
+                <h1 class="header__title">{{.ProjectName}}</h1>
+            </div>
+            
+            <nav class="header__nav">
+                <button class="nav__item" data-tab="overview">
+                    <span class="icon">📊</span>
+                    Overview
+                </button>
+                <button class="nav__item" data-tab="analytics">
+                    <span class="icon">📈</span>
+                    Analytics
+                </button>
+                <button class="nav__item" data-tab="trends">
+                    <span class="icon">📉</span>
+                    Trends
+                </button>
+                <button class="nav__item" data-tab="specs">
+                    <span class="icon">📋</span>
+                    Specifications
+                </button>
+            </nav>
+            
+            <div class="header__actions">
+                <button class="btn btn--icon" id="themeToggle" title="Toggle dark mode">
+                    <span class="icon-light">🌞</span>
+                    <span class="icon-dark">🌙</span>
+                </button>
+                <button class="btn btn--icon" id="exportBtn" title="Export report">
+                    <span class="icon">📤</span>
+                </button>
+                <button class="btn btn--icon" id="shareBtn" title="Share report">
+                    <span class="icon">🔗</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Overview Tab -->
+            <section id="overview" class="tab-content active">
+                <!-- Executive Summary -->
+                <div class="summary-grid">
+                    <div class="summary-card summary-card--success">
+                        <div class="summary-card__icon">✅</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">{{.PassedSpecsCount}}</h3>
+                            <p class="summary-card__label">Passed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card summary-card--danger">
+                        <div class="summary-card__icon">❌</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">{{.FailedSpecsCount}}</h3>
+                            <p class="summary-card__label">Failed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card summary-card--warning">
+                        <div class="summary-card__icon">⏭️</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">{{.SkippedSpecsCount}}</h3>
+                            <p class="summary-card__label">Skipped</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-card__icon">⏱️</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">{{.ExecutionTime}}</h3>
+                            <p class="summary-card__label">Duration</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-card__title">Test Results Distribution</h3>
+                        <div class="chart-card__body">
+                            <canvas id="resultsChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3 class="chart-card__title">Success Rate</h3>
+                        <div class="chart-card__body">
+                            <div class="success-rate">
+                                <div class="success-rate__circle">
+                                    <span class="success-rate__value">{{.SuccessRate}}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specifications List -->
+                <div class="specs-section">
+                    <div class="specs-section__header">
+                        <h2 class="specs-section__title">Specifications</h2>
+                        <div class="specs-section__filters">
+                            <input type="text" id="specSearch" class="search-input" placeholder="Search specifications...">
+                            <select id="statusFilter" class="filter-select">
+                                <option value="all">All Status</option>
+                                <option value="passed">Passed</option>
+                                <option value="failed">Failed</option>
+                                <option value="skipped">Skipped</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="specs-list" id="specsList">
+                        {{range .SpecResults}}
+                        <div class="spec-card spec-card--{{.GetStatus}}">
+                            <div class="spec-card__header">
+                                <div class="spec-card__status">
+                                    <span class="status-badge status-badge--{{.GetStatus}}">{{.GetStatus}}</span>
+                                </div>
+                                <h3 class="spec-card__title">
+                                    <a href="{{.GetHTMLFileName}}">{{.SpecHeading}}</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span class="meta-item">⏱️ {{.ExecutionTime}}</span>
+                                    <span class="meta-item">📊 {{len .Scenarios}} scenarios</span>
+                                </div>
+                            </div>
+                            
+                            {{if .Tags}}
+                            <div class="spec-card__tags">
+                                {{range .Tags}}
+                                <span class="tag">{{.}}</span>
+                                {{end}}
+                            </div>
+                            {{end}}
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">{{.GetPassedScenariosCount}}</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">{{.GetFailedScenariosCount}}</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">{{.GetSkippedScenariosCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Tab -->
+            <section id="analytics" class="tab-content">
+                <h2>Advanced Analytics</h2>
+                <div class="analytics-grid">
+                    <!-- Performance Analysis -->
+                    <div class="analytics-card">
+                        <h3>Performance Analysis</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    
+                    <!-- Flaky Tests -->
+                    <div class="analytics-card">
+                        <h3>Flaky Tests Detected</h3>
+                        <div id="flakyTestsList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trends Tab -->
+            <section id="trends" class="tab-content">
+                <h2>Historical Trends</h2>
+                <div class="trends-grid">
+                    <div class="trend-card">
+                        <h3>Success Rate Trend</h3>
+                        <canvas id="successTrendChart"></canvas>
+                    </div>
+                    
+                    <div class="trend-card">
+                        <h3>Execution Time Trend</h3>
+                        <canvas id="timeTrendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Specifications Tab -->
+            <section id="specs" class="tab-content">
+                <h2>All Specifications</h2>
+                <div id="specificationsTree"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Generated by <strong>Enhanced Gauge HTML Report</strong> v1.0.0 on {{.Timestamp}}
+            </p>
+            <div class="footer__links">
+                <a href="https://github.com/your-org/gauge-html-report-enhanced" target="_blank">GitHub</a>
+                <a href="https://docs.gauge-enhanced.org" target="_blank">Documentation</a>
+                <a href="https://gauge.org" target="_blank">Gauge Framework</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/chart.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html>
