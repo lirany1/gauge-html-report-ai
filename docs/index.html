@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Sample E-commerce Tests - Enhanced Gauge Report | AI-Powered Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-primary: #4F46E5;
+            --color-success: #10B981;
+            --color-danger: #EF4444;
+            --color-warning: #F59E0B;
+            --color-bg: #F9FAFB;
+            --color-surface: #FFFFFF;
+            --color-text: #1F2937;
+            --color-text-secondary: #6B7280;
+            --color-border: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 16px 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header__brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header__title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .header__nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav__item {
+            background: transparent;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: all 0.2s;
+        }
+
+        .nav__item:hover {
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .nav__item.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .header__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--color-bg);
+        }
+
+        .btn--primary {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .main {
+            padding: 32px 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .summary-card {
+            background: var(--color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.2s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-card__icon {
+            font-size: 36px;
+        }
+
+        .summary-card__value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .summary-card__label {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-card--success .summary-card__value {
+            color: var(--color-success);
+        }
+
+        .summary-card--danger .summary-card__value {
+            color: var(--color-danger);
+        }
+
+        .summary-card--warning .summary-card__value {
+            color: var(--color-warning);
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background: var(--color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chart-card__title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .specs-section__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .specs-section__title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .specs-section__filters {
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-input {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 250px;
+        }
+
+        .filter-select {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--color-surface);
+            cursor: pointer;
+        }
+
+        .spec-card {
+            background: var(--color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
+            border-left: 4px solid var(--color-border);
+            transition: all 0.2s;
+        }
+
+        .spec-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .spec-card--passed {
+            border-left-color: var(--color-success);
+        }
+
+        .spec-card--failed {
+            border-left-color: var(--color-danger);
+        }
+
+        .spec-card--skipped {
+            border-left-color: var(--color-warning);
+        }
+
+        .spec-card__header {
+            margin-bottom: 16px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .status-badge--passed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-badge--failed {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .status-badge--skipped {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .spec-card__title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .spec-card__title a {
+            color: var(--color-text);
+            text-decoration: none;
+        }
+
+        .spec-card__title a:hover {
+            color: var(--color-primary);
+        }
+
+        .spec-card__meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .spec-card__tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tag {
+            background: var(--color-bg);
+            color: var(--color-text-secondary);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .spec-card__stats {
+            display: flex;
+            gap: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .stat__label {
+            color: var(--color-text-secondary);
+        }
+
+        .stat__value {
+            font-weight: 600;
+        }
+
+        .stat--success .stat__value {
+            color: var(--color-success);
+        }
+
+        .stat--danger .stat__value {
+            color: var(--color-danger);
+        }
+
+        .stat--warning .stat__value {
+            color: var(--color-warning);
+        }
+
+        .footer {
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            padding: 24px 0;
+            margin-top: 48px;
+        }
+
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer__text {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .footer__links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer__links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer__links a:hover {
+            color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-section__header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .specs-section__filters {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__brand">
+                <h1 class="header__title">🎯 E-commerce Test Suite</h1>
+            </div>
+            
+            <nav class="header__nav">
+                <button class="nav__item active" data-tab="overview">📊 Overview</button>
+                <button class="nav__item" data-tab="analytics">📈 Analytics</button>
+                <button class="nav__item" data-tab="trends">📉 Trends</button>
+            </nav>
+            
+            <div class="header__actions">
+                <button class="btn">🌙 Theme</button>
+                <button class="btn btn--primary">📤 Export PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section id="overview" class="tab-content active">
+                <div class="summary-grid">
+                    <div class="summary-card summary-card--success">
+                        <div class="summary-card__icon">✅</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">28</h3>
+                            <p class="summary-card__label">Passed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card summary-card--danger">
+                        <div class="summary-card__icon">❌</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">3</h3>
+                            <p class="summary-card__label">Failed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card summary-card--warning">
+                        <div class="summary-card__icon">⏭️</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">1</h3>
+                            <p class="summary-card__label">Skipped</p>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-card__icon">⏱️</div>
+                        <div class="summary-card__content">
+                            <h3 class="summary-card__value">4m 32s</h3>
+                            <p class="summary-card__label">Duration</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-card__title">Test Results Distribution</h3>
+                        <div class="chart-card__body">
+                            <canvas id="resultsChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3 class="chart-card__title">Execution Timeline</h3>
+                        <div class="chart-card__body">
+                            <canvas id="timelineChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="specs-section">
+                    <div class="specs-section__header">
+                        <h2 class="specs-section__title">Specifications</h2>
+                        <div class="specs-section__filters">
+                            <input type="text" class="search-input" placeholder="🔍 Search specifications...">
+                            <select class="filter-select">
+                                <option>All Status</option>
+                                <option>Passed</option>
+                                <option>Failed</option>
+                                <option>Skipped</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="specs-list">
+                        <div class="spec-card spec-card--passed">
+                            <div class="spec-card__header">
+                                <span class="status-badge status-badge--passed">Passed</span>
+                                <h3 class="spec-card__title">
+                                    <a href="#">User Authentication Flow</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span>⏱️ 45s</span>
+                                    <span>📊 5 scenarios</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-card__tags">
+                                <span class="tag">authentication</span>
+                                <span class="tag">critical</span>
+                                <span class="tag">smoke</span>
+                            </div>
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">5</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-card spec-card--failed">
+                            <div class="spec-card__header">
+                                <span class="status-badge status-badge--failed">Failed</span>
+                                <h3 class="spec-card__title">
+                                    <a href="#">Shopping Cart Operations</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span>⏱️ 1m 23s</span>
+                                    <span>📊 8 scenarios</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-card__tags">
+                                <span class="tag">cart</span>
+                                <span class="tag">critical</span>
+                            </div>
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">6</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">2</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-card spec-card--passed">
+                            <div class="spec-card__header">
+                                <span class="status-badge status-badge--passed">Passed</span>
+                                <h3 class="spec-card__title">
+                                    <a href="#">Payment Processing</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span>⏱️ 2m 15s</span>
+                                    <span>📊 12 scenarios</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-card__tags">
+                                <span class="tag">payment</span>
+                                <span class="tag">critical</span>
+                                <span class="tag">integration</span>
+                            </div>
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">12</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-card spec-card--passed">
+                            <div class="spec-card__header">
+                                <span class="status-badge status-badge--passed">Passed</span>
+                                <h3 class="spec-card__title">
+                                    <a href="#">Product Search and Filter</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span>⏱️ 34s</span>
+                                    <span>📊 6 scenarios</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-card__tags">
+                                <span class="tag">search</span>
+                                <span class="tag">ui</span>
+                            </div>
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">6</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spec-card spec-card--skipped">
+                            <div class="spec-card__header">
+                                <span class="status-badge status-badge--skipped">Skipped</span>
+                                <h3 class="spec-card__title">
+                                    <a href="#">Email Notifications</a>
+                                </h3>
+                                <div class="spec-card__meta">
+                                    <span>⏱️ 0s</span>
+                                    <span>📊 3 scenarios</span>
+                                </div>
+                            </div>
+                            
+                            <div class="spec-card__tags">
+                                <span class="tag">notifications</span>
+                                <span class="tag">external</span>
+                            </div>
+                            
+                            <div class="spec-card__stats">
+                                <div class="stat stat--success">
+                                    <span class="stat__label">Passed:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                                <div class="stat stat--danger">
+                                    <span class="stat__label">Failed:</span>
+                                    <span class="stat__value">0</span>
+                                </div>
+                                <div class="stat stat--warning">
+                                    <span class="stat__label">Skipped:</span>
+                                    <span class="stat__value">3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">
+                Generated by <strong>Enhanced Gauge HTML Report</strong> v5.0.0 with AI-powered analysis on October 25, 2025 at 2:45 PM
+            </p>
+            <div class="footer__links">
+                <a href="#">GitHub</a>
+                <a href="#">Documentation</a>
+                <a href="#">Gauge Framework</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.nav__item').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.nav__item').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        // Results Chart
+        const resultsCtx = document.getElementById('resultsChart').getContext('2d');
+        new Chart(resultsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Passed', 'Failed', 'Skipped'],
+                datasets: [{
+                    data: [28, 3, 1],
+                    backgroundColor: ['#10B981', '#EF4444', '#F59E0B'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Timeline Chart
+        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+        new Chart(timelineCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Auth', 'Cart', 'Payment', 'Search', 'Notifications'],
+                datasets: [{
+                    label: 'Execution Time (seconds)',
+                    data: [45, 83, 135, 34, 0],
+                    backgroundColor: '#4F46E5',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Seconds'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
