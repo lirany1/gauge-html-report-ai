@@ -226,9 +226,138 @@ class EnhancedReport {
   }
 
   exportReport(format) {
-    console.log(`Exporting report as ${format}...`);
-    // TODO: Implement actual export functionality
-    alert(`Export as ${format.toUpperCase()} - Coming soon!`);
+    // Get current report data
+    const reportData = this.getReportData();
+    
+    switch(format) {
+      case 'json':
+        this.downloadJSON(reportData);
+        break;
+      case 'csv':
+        this.downloadCSV(reportData);
+        break;
+      case 'pdf':
+        this.generatePDF();
+        break;
+      case 'xml':
+        this.downloadXML(reportData);
+        break;
+      default:
+        console.warn('Unknown export format:', format);
+    }
+  }
+  
+  getReportData() {
+    // Extract data from the current page
+    const summaryCards = document.querySelectorAll('.summary-card');
+    const specs = document.querySelectorAll('.spec-card');
+    
+    const summary = {};
+    summaryCards.forEach(card => {
+      const label = card.querySelector('.summary-card__label')?.textContent.toLowerCase();
+      const value = card.querySelector('.summary-card__value')?.textContent;
+      if (label && value) {
+        summary[label] = value;
+      }
+    });
+    
+    const specifications = [];
+    specs.forEach(spec => {
+      const title = spec.querySelector('.spec-card__title')?.textContent;
+      const status = spec.querySelector('.status-badge')?.textContent;
+      const meta = spec.querySelector('.spec-card__meta')?.textContent;
+      
+      if (title) {
+        specifications.push({ title, status, meta });
+      }
+    });
+    
+    return {
+      summary,
+      specifications,
+      exportedAt: new Date().toISOString(),
+      projectName: document.querySelector('h1')?.textContent || 'Test Report'
+    };
+  }
+  
+  downloadJSON(data) {
+    const jsonStr = JSON.stringify(data, null, 2);
+    this.downloadFile(jsonStr, 'report.json', 'application/json');
+  }
+  
+  downloadCSV(data) {
+    let csv = 'Specification,Status,Meta\n';
+    data.specifications.forEach(spec => {
+      csv += `"${spec.title}","${spec.status}","${spec.meta}"\n`;
+    });
+    this.downloadFile(csv, 'report.csv', 'text/csv');
+  }
+  
+  downloadXML(data) {
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<testReport>
+  <project>${data.projectName}</project>
+  <exportedAt>${data.exportedAt}</exportedAt>
+  <summary>
+    <passed>${data.summary.passed || 0}</passed>
+    <failed>${data.summary.failed || 0}</failed>
+    <skipped>${data.summary.skipped || 0}</skipped>
+  </summary>
+  <specifications>
+    ${data.specifications.map(spec => 
+      `<specification>
+        <title>${spec.title}</title>
+        <status>${spec.status}</status>
+        <meta>${spec.meta}</meta>
+      </specification>`
+    ).join('\n    ')}
+  </specifications>
+</testReport>`;
+    this.downloadFile(xml, 'report.xml', 'application/xml');
+  }
+  
+  generatePDF() {
+    // Simple PDF generation using browser's print functionality
+    const printWindow = window.open('', '_blank');
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Test Report</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; }
+          .header { text-align: center; margin-bottom: 20px; }
+          .summary { margin-bottom: 20px; }
+          .specs { margin-top: 20px; }
+          .spec { margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; }
+          .passed { background-color: #d4edda; }
+          .failed { background-color: #f8d7da; }
+          .skipped { background-color: #fff3cd; }
+        </style>
+      </head>
+      <body>
+        ${document.querySelector('main').innerHTML}
+      </body>
+      </html>
+    `;
+    
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  }
+  
+  downloadFile(content, filename, contentType) {
+    const blob = new Blob([content], { type: contentType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   // Search functionality

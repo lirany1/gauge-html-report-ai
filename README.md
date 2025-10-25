@@ -56,6 +56,8 @@ export GAUGE_AI_MODEL=llama2
 | 📈 **Analytics Engine** | Performance metrics and execution timeline |
 | 🔍 **Smart Grouping** | Groups similar failures together |
 | 📱 **Mobile Friendly** | Responsive design works on all devices |
+| 🌙 **Dark Mode** | Toggle between light and dark themes |
+| 📤 **Export Options** | PDF, JSON, XML, and CSV export formats |
 | ⚡ **Pattern Matching** | Intelligent analysis works without AI setup |
 | 🧠 **Multi-LLM Support** | OpenAI, Claude, and local LLM providers |
 
