@@ -1,8 +1,8 @@
 package renderer
 
 import (
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/models"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/models"
 )
 
 // Renderer handles HTML template rendering

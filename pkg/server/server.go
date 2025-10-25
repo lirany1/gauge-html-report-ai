@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
 )
 
 // Config holds server configuration

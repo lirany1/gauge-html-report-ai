@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/getgauge/common"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
 )
 
 // Manager handles theme management

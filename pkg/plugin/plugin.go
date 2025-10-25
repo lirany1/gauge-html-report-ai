@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 
 	"github.com/getgauge/gauge-proto/go/gauge_messages"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/builder"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/builder"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
 	"google.golang.org/grpc"
 )
 

@@ -9,13 +9,13 @@ import (
 	"time"
 
 	"github.com/getgauge/gauge-proto/go/gauge_messages"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/analytics"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/export"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/models"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/renderer"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/themes"
+	"github.com/lirany1/gauge-html-report-ai/pkg/analytics"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/export"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/models"
+	"github.com/lirany1/gauge-html-report-ai/pkg/renderer"
+	"github.com/lirany1/gauge-html-report-ai/pkg/themes"
 	"google.golang.org/protobuf/proto"
 )
 

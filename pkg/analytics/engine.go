@@ -5,9 +5,9 @@ import (
 	"sort"
 	"time"
 
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/models"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/storage"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/models"
+	"github.com/lirany1/gauge-html-report-ai/pkg/storage"
 )
 
 // Engine handles analytics processing with database integration

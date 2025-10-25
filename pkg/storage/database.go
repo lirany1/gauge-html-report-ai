@@ -9,7 +9,7 @@ import (
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
 )
 
 // Database handles historical test execution data

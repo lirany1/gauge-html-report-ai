@@ -6,11 +6,11 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/generator"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/plugin"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/server"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/generator"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/plugin"
+	"github.com/lirany1/gauge-html-report-ai/pkg/server"
 )
 
 var (
@@ -43,7 +43,7 @@ func main() {
 		Long: `Enhanced HTML Report Plugin for Gauge
 		
 Generates advanced HTML reports with analytics, modern UI, and extensive customization options.
-Visit https://github.com/your-org/gauge-html-report-enhanced for more information.`,
+Visit https://github.com/lirany1/gauge-html-report-ai for more information.`,
 		Version: fmt.Sprintf("%s (commit: %s, built: %s)", version, commit, date),
 	}
 

@@ -1,4 +1,4 @@
-module github.com/your-org/gauge-html-report-enhanced
+module github.com/lirany1/gauge-html-report-ai
 
 go 1.24.0
 

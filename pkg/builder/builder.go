@@ -9,12 +9,12 @@ import (
 
 	"github.com/getgauge/gauge-proto/go/gauge_messages"
 	"github.com/google/uuid"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/ai"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/analytics"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/config"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/logger"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/models"
-	"github.com/your-org/gauge-html-report-enhanced/pkg/storage"
+	"github.com/lirany1/gauge-html-report-ai/pkg/ai"
+	"github.com/lirany1/gauge-html-report-ai/pkg/analytics"
+	"github.com/lirany1/gauge-html-report-ai/pkg/config"
+	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
+	"github.com/lirany1/gauge-html-report-ai/pkg/models"
+	"github.com/lirany1/gauge-html-report-ai/pkg/storage"
 )
 
 // ReportBuilder handles building the HTML report

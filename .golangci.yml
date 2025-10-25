@@ -1,0 +1,26 @@
+run:
+  timeout: 10m
+  tests: true
+  skip-dirs:
+    - vendor
+
+linters:
+  enable:
+    - gofmt
+    - golint
+    - govet
+    - errcheck
+    - staticcheck
+  disable:
+    - unused  # Can be slow on large codebases
+
+linters-settings:
+  errcheck:
+    check-blank: true
+  govet:
+    check-shadowing: true
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
