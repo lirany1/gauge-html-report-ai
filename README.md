@@ -53,11 +53,11 @@ export GAUGE_AI_MODEL=llama2
 | Feature | Description |
 |---------|-------------|
 | 🤖 **AI Error Analysis** | Automatically categorizes failures (Timeout, Network, etc.) |
-| 📈 **Trend Analytics** | Track test health over time |
+| 📈 **Analytics Engine** | Performance metrics and execution timeline |
 | 🔍 **Smart Grouping** | Groups similar failures together |
 | 📱 **Mobile Friendly** | Responsive design works on all devices |
-| 🌙 **Dark Mode** | Easy on the eyes for late-night debugging |
-| 📤 **Export Options** | PDF, email sharing, and more |
+| ⚡ **Pattern Matching** | Intelligent analysis works without AI setup |
+| 🧠 **Multi-LLM Support** | OpenAI, Claude, and local LLM providers |
 
 ## 🧪 Testing
 
