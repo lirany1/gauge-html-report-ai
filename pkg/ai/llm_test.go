@@ -15,10 +15,10 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 
 	// Cleanup
 	defer func() {
-		os.Setenv("GAUGE_AI_ENABLED", originalEnabled)
-		os.Setenv("GAUGE_AI_PROVIDER", originalProvider)
-		os.Setenv("GAUGE_AI_API_KEY", originalAPIKey)
-		os.Setenv("GAUGE_AI_MODEL", originalModel)
+		_ = os.Setenv("GAUGE_AI_ENABLED", originalEnabled)
+		_ = os.Setenv("GAUGE_AI_PROVIDER", originalProvider)
+		_ = os.Setenv("GAUGE_AI_API_KEY", originalAPIKey)
+		_ = os.Setenv("GAUGE_AI_MODEL", originalModel)
 	}()
 
 	t.Run("Disabled by default", func(t *testing.T) {
