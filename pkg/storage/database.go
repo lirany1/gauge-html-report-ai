@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // Database handles historical test execution data
@@ -173,10 +173,16 @@ func (d *Database) SaveExecution(exec *ExecutionRecord) error {
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
-	tagsJSON, _ := json.Marshal(exec.Tags)
-	metadataJSON, _ := json.Marshal(exec.Metadata)
+	tagsJSON, err := json.Marshal(exec.Tags)
+	if err != nil {
+		return fmt.Errorf("failed to marshal tags: %w", err)
+	}
+	metadataJSON, err := json.Marshal(exec.Metadata)
+	if err != nil {
+		return fmt.Errorf("failed to marshal metadata: %w", err)
+	}
 
-	_, err := d.db.Exec(query,
+	_, err = d.db.Exec(query,
 		exec.ID,
 		exec.Timestamp.Format(time.RFC3339),
 		exec.Duration,
@@ -236,7 +242,11 @@ func (d *Database) GetRecentExecutions(limit int) ([]ExecutionRecord, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			logger.Warnf("Failed to close rows: %v", err)
+		}
+	}()
 
 	var executions []ExecutionRecord
 	for rows.Next() {
@@ -261,9 +271,19 @@ func (d *Database) GetRecentExecutions(limit int) ([]ExecutionRecord, error) {
 			continue
 		}
 
-		exec.Timestamp, _ = time.Parse(time.RFC3339, timestamp)
-		json.Unmarshal([]byte(tagsJSON), &exec.Tags)
-		json.Unmarshal([]byte(metadataJSON), &exec.Metadata)
+		parsedTime, err := time.Parse(time.RFC3339, timestamp)
+		if err != nil {
+			logger.Warnf("Failed to parse timestamp %s: %v", timestamp, err)
+			continue
+		}
+		exec.Timestamp = parsedTime
+
+		if err := json.Unmarshal([]byte(tagsJSON), &exec.Tags); err != nil {
+			logger.Warnf("Failed to unmarshal tags: %v", err)
+		}
+		if err := json.Unmarshal([]byte(metadataJSON), &exec.Metadata); err != nil {
+			logger.Warnf("Failed to unmarshal metadata: %v", err)
+		}
 
 		executions = append(executions, exec)
 	}
@@ -288,7 +308,11 @@ func (d *Database) GetScenarioHistory(scenarioName string, days int) ([]Scenario
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			logger.Warnf("Failed to close rows: %v", err)
+		}
+	}()
 
 	var scenarios []ScenarioRecord
 	for rows.Next() {
@@ -368,7 +392,11 @@ func (d *Database) GetTrendData(days int) ([]TrendPoint, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			logger.Warnf("Failed to close rows: %v", err)
+		}
+	}()
 
 	var trends []TrendPoint
 	for rows.Next() {
@@ -387,7 +415,12 @@ func (d *Database) GetTrendData(days int) ([]TrendPoint, error) {
 			continue
 		}
 
-		tp.Timestamp, _ = time.Parse(time.RFC3339, timestamp)
+		parsedTime, err := time.Parse(time.RFC3339, timestamp)
+		if err != nil {
+			logger.Warnf("Failed to parse timestamp %s: %v", timestamp, err)
+			continue
+		}
+		tp.Timestamp = parsedTime
 		trends = append(trends, tp)
 	}
 
@@ -420,7 +453,11 @@ func (d *Database) CleanupOldData(retentionDays int) error {
 			continue
 		}
 
-		rows, _ := result.RowsAffected()
+		rows, err := result.RowsAffected()
+		if err != nil {
+			logger.Warnf("Failed to get rows affected for %s: %v", table, err)
+			continue
+		}
 		logger.Infof("Cleaned up %d old records from %s", rows, table)
 	}
 
