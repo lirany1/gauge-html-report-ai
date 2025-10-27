@@ -147,9 +147,7 @@ func (rb *ReportBuilder) convertToEnhancedSuite(proto *gauge_messages.ProtoSuite
 	tags := make([]string, 0)
 	if proto.GetTags() != "" {
 		// Split comma-separated tags
-		for _, tag := range splitTags(proto.GetTags()) {
-			tags = append(tags, tag)
-		}
+		tags = append(tags, splitTags(proto.GetTags())...)
 	}
 
 	suite := &models.EnhancedSuiteResult{

@@ -190,15 +190,15 @@ func (c *LLMClient) callOpenAI(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if err := resp.Body.Close(); err != nil {
+		if closeErr := resp.Body.Close(); closeErr != nil {
 			// Log error but don't override main error
 		}
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, err)
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, readErr)
 		}
 		return "", fmt.Errorf("API returned status %d: %s", resp.StatusCode, string(body))
 	}
@@ -254,15 +254,15 @@ func (c *LLMClient) callClaude(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if err := resp.Body.Close(); err != nil {
+		if closeErr := resp.Body.Close(); closeErr != nil {
 			// Log error but don't override main error
 		}
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, err)
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, readErr)
 		}
 		return "", fmt.Errorf("API returned status %d: %s", resp.StatusCode, string(body))
 	}
@@ -322,15 +322,15 @@ func (c *LLMClient) callGemini(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if err := resp.Body.Close(); err != nil {
+		if closeErr := resp.Body.Close(); closeErr != nil {
 			// Log error but don't override main error
 		}
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, err)
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, readErr)
 		}
 		return "", fmt.Errorf("API returned status %d: %s", resp.StatusCode, string(body))
 	}
@@ -391,15 +391,15 @@ func (c *LLMClient) callLocal(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if err := resp.Body.Close(); err != nil {
+		if closeErr := resp.Body.Close(); closeErr != nil {
 			// Log error but don't override main error
 		}
 	}()
 
 	if resp.StatusCode != http.StatusOK {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, err)
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			return "", fmt.Errorf("API returned status %d (failed to read body: %w)", resp.StatusCode, readErr)
 		}
 		return "", fmt.Errorf("API returned status %d: %s", resp.StatusCode, string(body))
 	}
