@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 	"github.com/lirany1/gauge-html-report-ai/pkg/config"
 	"github.com/lirany1/gauge-html-report-ai/pkg/generator"
 	"github.com/lirany1/gauge-html-report-ai/pkg/logger"
 	"github.com/lirany1/gauge-html-report-ai/pkg/plugin"
 	"github.com/lirany1/gauge-html-report-ai/pkg/server"
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -122,14 +122,38 @@ Visit https://github.com/lirany1/gauge-html-report-ai for more information.`,
 }
 
 func runGenerate(cmd *cobra.Command, args []string) error {
-	inputFile, _ := cmd.Flags().GetString("input")
-	outputDir, _ := cmd.Flags().GetString("output")
-	themePath, _ := cmd.Flags().GetString("theme")
-	enableAnalytics, _ := cmd.Flags().GetBool("analytics")
-	exportPDF, _ := cmd.Flags().GetBool("export-pdf")
-	formats, _ := cmd.Flags().GetStringSlice("formats")
-	minify, _ := cmd.Flags().GetBool("minify")
-	configFile, _ := cmd.Flags().GetString("config")
+	inputFile, err := cmd.Flags().GetString("input")
+	if err != nil {
+		return fmt.Errorf("error getting input flag: %w", err)
+	}
+	outputDir, err := cmd.Flags().GetString("output")
+	if err != nil {
+		return fmt.Errorf("error getting output flag: %w", err)
+	}
+	themePath, err := cmd.Flags().GetString("theme")
+	if err != nil {
+		return fmt.Errorf("error getting theme flag: %w", err)
+	}
+	enableAnalytics, err := cmd.Flags().GetBool("analytics")
+	if err != nil {
+		return fmt.Errorf("error getting analytics flag: %w", err)
+	}
+	exportPDF, err := cmd.Flags().GetBool("export-pdf")
+	if err != nil {
+		return fmt.Errorf("error getting export-pdf flag: %w", err)
+	}
+	formats, err := cmd.Flags().GetStringSlice("formats")
+	if err != nil {
+		return fmt.Errorf("error getting formats flag: %w", err)
+	}
+	minify, err := cmd.Flags().GetBool("minify")
+	if err != nil {
+		return fmt.Errorf("error getting minify flag: %w", err)
+	}
+	configFile, err := cmd.Flags().GetString("config")
+	if err != nil {
+		return fmt.Errorf("error getting config flag: %w", err)
+	}
 
 	if inputFile == "" || outputDir == "" {
 		return fmt.Errorf("both --input and --output flags are required")
@@ -171,10 +195,22 @@ func runGenerate(cmd *cobra.Command, args []string) error {
 }
 
 func runServer(cmd *cobra.Command, args []string) error {
-	port, _ := cmd.Flags().GetInt("port")
-	host, _ := cmd.Flags().GetString("host")
-	reportsDir, _ := cmd.Flags().GetString("dir")
-	watch, _ := cmd.Flags().GetBool("watch")
+	port, err := cmd.Flags().GetInt("port")
+	if err != nil {
+		return fmt.Errorf("error getting port flag: %w", err)
+	}
+	host, err := cmd.Flags().GetString("host")
+	if err != nil {
+		return fmt.Errorf("error getting host flag: %w", err)
+	}
+	reportsDir, err := cmd.Flags().GetString("dir")
+	if err != nil {
+		return fmt.Errorf("error getting dir flag: %w", err)
+	}
+	watch, err := cmd.Flags().GetBool("watch")
+	if err != nil {
+		return fmt.Errorf("error getting watch flag: %w", err)
+	}
 
 	logger.Infof("Starting enhanced report server on %s:%d", host, port)
 	logger.Infof("Serving reports from: %s", reportsDir)
@@ -191,8 +227,14 @@ func runServer(cmd *cobra.Command, args []string) error {
 
 func runCreateTheme(cmd *cobra.Command, args []string) error {
 	themeName := args[0]
-	baseTheme, _ := cmd.Flags().GetString("base")
-	outputDir, _ := cmd.Flags().GetString("output")
+	baseTheme, err := cmd.Flags().GetString("base")
+	if err != nil {
+		return fmt.Errorf("error getting base flag: %w", err)
+	}
+	outputDir, err := cmd.Flags().GetString("output")
+	if err != nil {
+		return fmt.Errorf("error getting output flag: %w", err)
+	}
 
 	logger.Infof("Creating new theme '%s' based on '%s'", themeName, baseTheme)
 

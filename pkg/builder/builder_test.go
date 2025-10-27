@@ -10,7 +10,9 @@ func TestNewReportBuilder(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempDir)
+	defer func() {
+		_ = os.RemoveAll(tempDir)
+	}()
 
 	builder := NewReportBuilder(tempDir, tempDir)
 	if builder == nil {
@@ -23,7 +25,9 @@ func TestReportBuilder_Close(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempDir)
+	defer func() {
+		_ = os.RemoveAll(tempDir)
+	}()
 
 	builder := NewReportBuilder(tempDir, tempDir)
 	err = builder.Close()

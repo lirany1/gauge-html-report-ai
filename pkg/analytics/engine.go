@@ -316,7 +316,11 @@ func (e *Engine) DetectFlakyTests(suite *models.EnhancedSuiteResult) []*models.F
 
 			if score > flakyThreshold {
 				// Get history to calculate additional metrics
-				history, _ := e.db.GetScenarioHistory(scenario.ScenarioHeading, 30)
+				history, err := e.db.GetScenarioHistory(scenario.ScenarioHeading, 30)
+				if err != nil {
+					// If we can't get history, skip additional metrics but still report as flaky
+					history = []storage.ScenarioRecord{}
+				}
 
 				totalRuns := len(history)
 				failedRuns := 0

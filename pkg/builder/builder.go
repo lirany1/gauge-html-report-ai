@@ -361,7 +361,11 @@ func (rb *ReportBuilder) generateIndexHTML(reportDir string, suite *models.Enhan
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() {
+		if err := f.Close(); err != nil {
+			// Log error but don't override main error
+		}
+	}()
 
 	// Pass the suite struct directly to the template
 	return tmpl.Execute(f, suite)

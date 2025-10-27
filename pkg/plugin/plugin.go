@@ -61,8 +61,12 @@ func (p *Plugin) Start() error {
 
 	// Write port to stdout in the exact format Gauge expects
 	// Gauge's CustomWriter looks for "Listening on port:XXXXX"
-	fmt.Fprintf(os.Stdout, "Listening on port:%d\n", port)
-	os.Stdout.Sync()
+	if _, err := fmt.Fprintf(os.Stdout, "Listening on port:%d\n", port); err != nil {
+		// Error writing to stdout
+	}
+	if err := os.Stdout.Sync(); err != nil {
+		// Error syncing stdout
+	}
 
 	logger.Infof("gRPC server ready on port %d", port)
 
