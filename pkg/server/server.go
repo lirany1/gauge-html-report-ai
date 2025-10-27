@@ -55,15 +55,11 @@ func (s *Server) setupRoutes() {
 func (s *Server) handleListReports(w http.ResponseWriter, r *http.Request) {
 	// TODO: Implement report listing
 	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write([]byte(`{"reports": []}`)); err != nil {
-		// Error writing response
-	}
+	_, _ = w.Write([]byte(`{"reports": []}`)) // Ignore write errors for TODO endpoint
 }
 
 func (s *Server) handleGetReport(w http.ResponseWriter, r *http.Request) {
 	// TODO: Implement report retrieval
 	w.Header().Set("Content-Type", "application/json")
-	if _, err := w.Write([]byte(`{}`)); err != nil {
-		// Error writing response
-	}
+	_, _ = w.Write([]byte(`{}`)) // Ignore write errors for TODO endpoint
 }
