@@ -190,9 +190,7 @@ func (c *LLMClient) callOpenAI(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if closeErr := resp.Body.Close(); closeErr != nil {
-			// Log error but don't override main error
-		}
+		_ = resp.Body.Close() // Ignore close errors in defer
 	}()
 
 	if resp.StatusCode != http.StatusOK {
@@ -254,9 +252,7 @@ func (c *LLMClient) callClaude(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if closeErr := resp.Body.Close(); closeErr != nil {
-			// Log error but don't override main error
-		}
+		_ = resp.Body.Close() // Ignore close errors in defer
 	}()
 
 	if resp.StatusCode != http.StatusOK {
@@ -322,9 +318,7 @@ func (c *LLMClient) callGemini(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if closeErr := resp.Body.Close(); closeErr != nil {
-			// Log error but don't override main error
-		}
+		_ = resp.Body.Close() // Ignore close errors in defer
 	}()
 
 	if resp.StatusCode != http.StatusOK {
@@ -391,9 +385,7 @@ func (c *LLMClient) callLocal(prompt string, maxTokens int) (string, error) {
 		return "", fmt.Errorf("API request failed: %w", err)
 	}
 	defer func() {
-		if closeErr := resp.Body.Close(); closeErr != nil {
-			// Log error but don't override main error
-		}
+		_ = resp.Body.Close() // Ignore close errors in defer
 	}()
 
 	if resp.StatusCode != http.StatusOK {

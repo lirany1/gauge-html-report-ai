@@ -229,7 +229,9 @@ func (rb *ReportBuilder) convertSpecResult(proto *gauge_messages.ProtoSpecResult
 
 // convertScenario converts a proto scenario
 func (rb *ReportBuilder) convertScenario(proto *gauge_messages.ProtoScenario) *models.ScenarioResult {
+	//nolint:staticcheck // Using deprecated Gauge proto methods until framework provides alternatives
 	failed := proto.GetFailed()
+	//nolint:staticcheck // Using deprecated Gauge proto methods until framework provides alternatives
 	skipped := proto.GetSkipped()
 
 	// Debug logging

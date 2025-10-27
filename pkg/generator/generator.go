@@ -148,7 +148,8 @@ func (g *Generator) transformProtoToEnhanced(proto *gauge_messages.ProtoSuiteRes
 		BeforeSuiteFailure: transformHookFailure(proto.GetPreHookFailure()),
 		AfterSuiteFailure:  transformHookFailure(proto.GetPostHookFailure()),
 		Messages:           proto.GetPreHookMessages(),
-		Screenshots:        proto.GetPreHookScreenshots(), // Fixed method name
+		//nolint:staticcheck // Using deprecated Gauge proto method until framework provides alternative
+		Screenshots: proto.GetPreHookScreenshots(),
 	}
 
 	// Transform spec results
@@ -209,9 +210,11 @@ func (g *Generator) transformScenario(protoScenario *gauge_messages.ProtoScenari
 		ScenarioHeading: protoScenario.GetScenarioHeading(),
 		Tags:            protoScenario.GetTags(),
 		ExecutionTime:   time.Duration(protoScenario.GetExecutionTime()) * time.Millisecond,
-		Failed:          protoScenario.GetFailed(),
-		Skipped:         protoScenario.GetSkipped(),
-		Steps:           make([]*models.StepResult, 0),
+		//nolint:staticcheck // Using deprecated Gauge proto method until framework provides alternative
+		Failed: protoScenario.GetFailed(),
+		//nolint:staticcheck // Using deprecated Gauge proto method until framework provides alternative
+		Skipped: protoScenario.GetSkipped(),
+		Steps:   make([]*models.StepResult, 0),
 	}
 }
 
@@ -365,6 +368,7 @@ func transformHookFailure(proto *gauge_messages.ProtoHookFailure) *models.HookFa
 	return &models.HookFailure{
 		ErrorMessage: proto.GetErrorMessage(),
 		StackTrace:   proto.GetStackTrace(),
-		Screenshot:   proto.GetScreenShot(),
+		//nolint:staticcheck // Using deprecated Gauge proto method until framework provides alternative
+		Screenshot: proto.GetScreenShot(),
 	}
 }

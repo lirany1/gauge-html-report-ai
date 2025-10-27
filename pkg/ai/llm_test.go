@@ -164,6 +164,7 @@ func TestNewLLMClient(t *testing.T) {
 
 		if client == nil {
 			t.Error("Expected client to be created")
+			return
 		}
 		if client.config.Provider != ProviderOpenAI {
 			t.Errorf("Expected OpenAI provider, got %v", client.config.Provider)
