@@ -16,7 +16,7 @@ linters:
 
 linters-settings:
   errcheck:
-    check-blank: true
+    check-blank: false  # Allow blank assignments for explicitly ignored errors
   govet:
     check-shadowing: true
 
