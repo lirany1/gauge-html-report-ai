@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: write  # Required for peaceiris/actions-gh-pages to push to gh-pages branch
+
 jobs:
   test:
     runs-on: ubuntu-latest
