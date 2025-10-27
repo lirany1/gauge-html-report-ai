@@ -22,9 +22,9 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 	}()
 
 	t.Run("Disabled by default", func(t *testing.T) {
-		os.Unsetenv("GAUGE_AI_ENABLED")
-		os.Unsetenv("GAUGE_AI_PROVIDER")
-		os.Unsetenv("GAUGE_AI_API_KEY")
+		_ = os.Unsetenv("GAUGE_AI_ENABLED")
+		_ = os.Unsetenv("GAUGE_AI_PROVIDER")
+		_ = os.Unsetenv("GAUGE_AI_API_KEY")
 
 		config := LoadLLMConfigFromEnv()
 
@@ -37,10 +37,10 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 	})
 
 	t.Run("OpenAI configuration", func(t *testing.T) {
-		os.Setenv("GAUGE_AI_ENABLED", "true")
-		os.Setenv("GAUGE_AI_PROVIDER", "openai")
-		os.Setenv("GAUGE_AI_API_KEY", "sk-test-key")
-		os.Setenv("GAUGE_AI_MODEL", "gpt-4")
+		_ = os.Setenv("GAUGE_AI_ENABLED", "true")
+		_ = os.Setenv("GAUGE_AI_PROVIDER", "openai")
+		_ = os.Setenv("GAUGE_AI_API_KEY", "sk-test-key")
+		_ = os.Setenv("GAUGE_AI_MODEL", "gpt-4")
 
 		config := LoadLLMConfigFromEnv()
 
@@ -62,10 +62,10 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 	})
 
 	t.Run("Claude configuration", func(t *testing.T) {
-		os.Setenv("GAUGE_AI_ENABLED", "true")
-		os.Setenv("GAUGE_AI_PROVIDER", "claude")
-		os.Setenv("GAUGE_AI_API_KEY", "sk-ant-test-key")
-		os.Unsetenv("GAUGE_AI_MODEL") // Test default model
+		_ = os.Setenv("GAUGE_AI_ENABLED", "true")
+		_ = os.Setenv("GAUGE_AI_PROVIDER", "claude")
+		_ = os.Setenv("GAUGE_AI_API_KEY", "sk-ant-test-key")
+		_ = os.Unsetenv("GAUGE_AI_MODEL") // Test default model
 
 		config := LoadLLMConfigFromEnv()
 
@@ -87,10 +87,10 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 	})
 
 	t.Run("Local LLM configuration", func(t *testing.T) {
-		os.Setenv("GAUGE_AI_ENABLED", "true")
-		os.Setenv("GAUGE_AI_PROVIDER", "local")
-		os.Unsetenv("GAUGE_AI_API_KEY") // Not required for local
-		os.Unsetenv("GAUGE_AI_MODEL")   // Test default
+		_ = os.Setenv("GAUGE_AI_ENABLED", "true")
+		_ = os.Setenv("GAUGE_AI_PROVIDER", "local")
+		_ = os.Unsetenv("GAUGE_AI_API_KEY") // Not required for local
+		_ = os.Unsetenv("GAUGE_AI_MODEL")   // Test default
 
 		config := LoadLLMConfigFromEnv()
 
@@ -109,9 +109,9 @@ func TestLoadLLMConfigFromEnv(t *testing.T) {
 	})
 
 	t.Run("Invalid provider is kept as-is", func(t *testing.T) {
-		os.Setenv("GAUGE_AI_ENABLED", "true")
-		os.Setenv("GAUGE_AI_PROVIDER", "invalid-provider")
-		os.Setenv("GAUGE_AI_API_KEY", "test-key")
+		_ = os.Setenv("GAUGE_AI_ENABLED", "true")
+		_ = os.Setenv("GAUGE_AI_PROVIDER", "invalid-provider")
+		_ = os.Setenv("GAUGE_AI_API_KEY", "test-key")
 
 		config := LoadLLMConfigFromEnv()
 
