@@ -5,6 +5,8 @@
 [![Version](https://img.shields.io/badge/version-5.0.0-brightgreen.svg)](https://github.com/lirany1/gauge-html-report-ai/releases)
 [![CI](https://github.com/lirany1/gauge-html-report-ai/workflows/CI/badge.svg)](https://github.com/lirany1/gauge-html-report-ai/actions)
 
+<a href="https://buymeacoffee.com/liran80v" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 Transform your [Gauge](https://gauge.org) test reports with **AI-powered insights** and modern analytics! 
 
 ## ✨ What makes it special?
